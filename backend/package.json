@@ -114,5 +114,10 @@
     ],
     "testEnvironment": "node",
     "verbose": false
+  },
+  "pnpm": {
+    "overrides": {
+      "minimist@<=1.2.5": "1.2.6"
+    }
   }
 }
