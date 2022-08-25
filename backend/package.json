@@ -115,7 +115,7 @@
     "testEnvironment": "node",
     "verbose": false
   },
-  "pnpm": {
+  "npm": {
     "overrides": {
       "minimist@<=1.2.5": "1.2.6"
     }
