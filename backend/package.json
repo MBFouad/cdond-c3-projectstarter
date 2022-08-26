@@ -116,6 +116,12 @@
     "verbose": false
   },
   "overrides": {
-    "minimist": "1.2.6"
+    "@nestjs/platform-express": {
+      "multer": {
+        "mkdirp": {
+          "minimist": "1.2.6"
+        }
+      }
+    }
   }
 }
