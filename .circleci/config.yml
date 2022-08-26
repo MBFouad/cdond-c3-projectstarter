@@ -153,7 +153,29 @@ jobs:
           condition: on_fail
           steps:
             - destroy-environment
-
+  configure-infrastructure:
+    docker:
+      - image: python:3.7-alpine3.11
+    steps:
+      - checkout
+      - add_ssh_keys:
+          # You can get this ID in the section where you registered the SSH Key
+          fingerprints: ["84:96:f1:09:79:57:7d:18:e5:48:a3:a3:f1:e1:50:15"]
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Install Ansible
+          command: |
+            apk add --update ansible
+      - run:
+          name: Configure server
+          command: |
+            cd .circleci/ansible
+            ansible-playbook -i inventory.txt configure-server.yml -u ubuntu
+#      - when:
+#          condition: on_fail
+#          steps:
+#            - destroy-environment
 
 workflows:
   default:
@@ -177,3 +199,6 @@ workflows:
           filters:
             branches:
               only: [master]
+      - configure-infrastructure:
+          requires:
+            - deploy-infrastructure
