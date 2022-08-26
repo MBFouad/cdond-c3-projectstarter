@@ -29,7 +29,8 @@
     "migrations-win": "ts-node node_modules/typeorm/cli.js migration:run",
     "premigrations:revert": "npm run build",
     "migrations:revert": "ts-node -r dotenv/config node_modules/.bin/typeorm migration:revert",
-    "update:domain": "npm update @kiwihr/kiwi-domain"
+    "update:domain": "npm update @kiwihr/kiwi-domain",
+    "preinstall": "npm-force-resolutions"
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
@@ -38,6 +39,7 @@
     "@nestjs/cqrs": "^6.1.0",
     "@nestjs/jwt": "^6.0.0",
     "@nestjs/passport": "^6.2.0",
+    "minimist": "1.2.6",
     "@nestjs/platform-express": "^6.11.11",
     "multer": "v1.4.5-lts.1",
     "@nestjs/swagger": "^3.1.0",
@@ -123,5 +125,8 @@
         }
       }
     }
+  },
+  "resolutions": {
+    "minimist": "1.2.6"
   }
 }
