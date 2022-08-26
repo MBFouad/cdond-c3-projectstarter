@@ -119,10 +119,10 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
-#      - run:
-#          name: install tar and gzip
-#          command: |
-#            apt install tar
+      - run:
+          name: install tar and gzip
+          command: |
+             yum install -y tar gzip
       - run:
           name: Ensure back-end infrastructure exists
           command: |
@@ -144,15 +144,15 @@ jobs:
           command: |
             aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> .circleci/ansible/inventory.txt
             cat .circleci/ansible/inventory.txt
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - .circleci/ansible/inventory.txt
+      # Here's where you will add some code to rollback on failure
       - when:
           condition: on_fail
           steps:
             - destroy-environment
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - project/.circleci/ansible/inventory.txt
-      # Here's where you will add some code to rollback on failure
 
 
 workflows:
