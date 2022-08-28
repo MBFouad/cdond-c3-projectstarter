@@ -168,7 +168,7 @@ jobs:
           command: |
             apk add --update ansible
             apk add openssh-client
-            apk add aws-cli
+            apk add awscli
       - run:
           name: Configure server
           command: |
