@@ -171,13 +171,11 @@ jobs:
           name: Configure server
           command: |
             cd .circleci/ansible
-            cat inventory.txt
-            cat configure-server.yml
             ansible-playbook -i inventory.txt configure-server.yml -u ubuntu
-#      - when:
-#          condition: on_fail
-#          steps:
-#            - destroy-environment
+      - when:
+          condition: on_fail
+          steps:
+            - destroy-environment
 
 workflows:
   default:
