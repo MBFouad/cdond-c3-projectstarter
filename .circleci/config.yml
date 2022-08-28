@@ -205,17 +205,8 @@ jobs:
     docker:
       - image: circleci/node:13.8.0
     steps:
-      - run:
-          name: Install python
-          command: |
-            pyenv global 3.7.0
-            sudo python -m pip install --upgrade pip setuptools wheel
-            sudo python -m pip install pipenv
-
-      - when:
-          condition: on_fail
-          steps:
-            - destroy-environment
+      - checkout
+      
 
 workflows:
   default:
