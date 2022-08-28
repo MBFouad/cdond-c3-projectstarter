@@ -205,7 +205,6 @@ jobs:
     docker:
       - image: circleci/node:13.8.0
     machine: true
-#    working_directory: ~/repo
     steps:
       - run:
           name: Install python
@@ -214,20 +213,6 @@ jobs:
             sudo python -m pip install --upgrade pip setuptools wheel
             sudo python -m pip install pipenv
 
-      - run:
-          name: Get backend url
-          command: |
-            export BACKEND_IP=$(aws ec2 describe-instances...............)
-            export API_URL="http://${BACKEND_IP}:3030"
-            echo "API_URL = ${API_URL}"
-            echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
-            cat frontend/.env
-            export API_URL="http://${BACKEND_IP}:3030"
-            echo "${API_URL}"
-      - run:
-          name: Deploy frontend objects
-          command: |
-            # your code here
       - when:
           condition: on_fail
           steps:
