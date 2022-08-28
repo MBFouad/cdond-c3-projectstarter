@@ -1,47 +1,25 @@
 ---
- - name: install Python
+ - name: Update apt Packages
    become: true
-   apt:
-     name: ["python3"]
-     state: latest
-     update_cache: yes
-
-
- - name: Run expect to wait for a successful PXE boot via out-of-band CIMC
-   become: true
-   shell: |
-     sudo apt update
-
-
- - name: Run expect to wait for a successful PXE boot via out-of-band CIMC
-   become: true
-   shell: |
-     sudo systemctl start httpd
-     sudo systemctl enable httpd
-     sudo usermod -a -G apache ec2-user
-     sudo chown -R ec2-user:apache /var/www
-     sudo chmod 2775 /var/www
-     find /var/www -type d -exec sudo chmod 2775 {} \;
-
- - name: "Add nodejs apt key"
-   apt_key:
-     url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
-     state: present
-
- - name: "Add nodejs 13.x ppa for apt repo"
-   apt_repository:
-     repo: deb https://deb.nodesource.com/node_13.x bionic main
-     update_cache: yes
-
- - name: "Install nodejs"
+   become_method: sudo
    apt:
      update_cache: yes
-     name: nodejs
-     state: present
 
- - name: "Install NPM-distributed command-line tools"
-   npm:
-     global: yes
-     name: "{{ item }}"
-   with_items:
-     - firebase-tools
+ - name: install node
+   shell: |
+     cd ~
+     curl -sL https://deb.nodesource.com/setup_13.x -o /tmp/nodesource_setup.sh
+
+ - name: run setup node
+   become: true
+   become_method: sudo
+   shell: |
+     bash /tmp/nodesource_setup.sh
+     apt install -y nodejs
+
+
+ - name: install pm2
+   become: true
+   become_method: sudo
+   shell: |
+     npm install pm2 -g
