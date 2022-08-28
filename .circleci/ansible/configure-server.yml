@@ -24,8 +24,9 @@
       become: true
       become_method: sudo
       shell: |
-        apt install -y python3-minimal python3 python3-pip
-        pip3 install ansible
+        apt install -y python3
+#        apt install -y python3-minimal python3 python3-pip
+#        pip3 install ansible
       register: _python_minimal
       changed_when: _python_minimal.stdout_lines | length > 0
 
