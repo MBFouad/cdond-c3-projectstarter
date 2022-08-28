@@ -205,7 +205,7 @@ jobs:
     docker:
       - image: circleci/node:13.8.0
     machine: true
-    working_directory: ~/repo
+#    working_directory: ~/repo
     steps:
       - run:
           name: Install python
