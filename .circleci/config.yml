@@ -204,11 +204,70 @@ jobs:
   deploy-frontend:
     docker:
       - image: circleci/node:13.8.0
+    machine: true
+    working_directory: ~/repo
     steps:
       - checkout
-      
+      - restore_cache:
+          keys: [frontend-build]
+      - run:
+          name: Install dependencies
+          command: |
+            cd frontend
+            npm install
+      - run:
+          name: Install python
+          command: |
+            pyenv global 3.7.0
+            sudo python -m pip install --upgrade pip setuptools wheel
+            sudo python -m pip install pipenv
+
+      - run:
+          name: Get backend url
+          command: |
+            export BACKEND_IP=$(aws ec2 describe-instances...............)
+            export API_URL="http://${BACKEND_IP}:3030"
+            echo "API_URL = ${API_URL}"
+            echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
+            cat frontend/.env
+            export API_URL="http://${BACKEND_IP}:3030"
+            echo "${API_URL}"
+      - run:
+          name: Deploy frontend objects
+          command: |
+            # your code here
+      - when:
+          condition: on_fail
+          steps:
+            - destroy-environment
 
 workflows:
   default:
     jobs:
+      - build-frontend
+      - build-backend
+      - test-frontend:
+          requires:
+            - build-frontend
+      - test-backend:
+          requires:
+            - build-backend
+      - scan-frontend:
+          requires:
+            - build-frontend
+      - scan-backend:
+          requires:
+            - build-backend
+      - deploy-infrastructure:
+          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+          filters:
+            branches:
+              only: [master]
+      - configure-infrastructure:
+          requires:
+            - deploy-infrastructure
+      - run-migrations:
+          requires:
+            - configure-infrastructure
       - deploy-frontend:
+          requires: [run-migrations]
