@@ -219,9 +219,10 @@ jobs:
       - run:
           name: Install python
           command: |
-            pyenv global 3.7.0
-            sudo python -m pip install --upgrade pip setuptools wheel
-            sudo python -m pip install pipenv
+            apt install -y python3-pip
+#            pyenv global 3.7.0
+#            sudo python -m pip install --upgrade pip setuptools wheel
+#            sudo python -m pip install pipenv
 
       - run:
           name: Get backend url
