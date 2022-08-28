@@ -204,7 +204,8 @@ jobs:
   deploy-frontend:
     docker:
       - image: circleci/node:13.8.0
-    machine: true
+
+#    machine: true
     working_directory: ~/repo
     steps:
       - checkout
