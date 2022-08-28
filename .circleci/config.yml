@@ -167,6 +167,7 @@ jobs:
           name: Install Ansible
           command: |
             apk add --update ansible
+            apk add openssh-client
       - run:
           name: Configure server
           command: |
