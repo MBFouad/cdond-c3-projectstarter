@@ -266,10 +266,10 @@ jobs:
             npm run build
             tar -czvf artifact-0bcaacb.tar.gz dist
             aws s3 cp dist s3://udapeople-0bcaacb --recursive
-      - persist_to_workspace:
-          root: .
-          paths:
-            - /home/circleci/env_vars
+#      - persist_to_workspace:
+#          root: .
+#          paths:
+#            - /home/circleci/env_vars
       - when:
           condition: on_fail
           steps:
