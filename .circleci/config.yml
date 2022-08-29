@@ -269,7 +269,7 @@ jobs:
       - persist_to_workspace:
           root: ~/repo
           paths:
-            - ~/repo/env_vars
+            - env_vars
       - when:
           condition: on_fail
           steps:
