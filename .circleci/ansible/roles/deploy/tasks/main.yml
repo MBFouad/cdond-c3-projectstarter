@@ -1,6 +1,7 @@
 ---
  - name: Run expect to wait for a successful PXE boot via out-of-band CIMC
    become: true
+   become_method: sudo
    shell: |
      mkdir /var/www/html
 
