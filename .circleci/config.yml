@@ -264,10 +264,10 @@ jobs:
             cd frontend
             npm install
             npm run build
-            tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
-            aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
+            tar -czvf artifact-0bcaacb.tar.gz dist
+            aws s3 cp dist s3://udapeople-0bcaacb --recursive
       - persist_to_workspace:
-          root: ~/
+          root: .
           paths:
             - /home/circleci/env_vars
       - when:
@@ -429,7 +429,7 @@ workflows:
 #      - scan-backend:
 #          requires:
 #            - build-backend
-      - deploy-infrastructure
+#      - deploy-infrastructure
 #          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
 #          filters:
 #            branches:
@@ -438,8 +438,8 @@ workflows:
 #          requires: [deploy-infrastructure]
 #      - run-migrations:
 #          requires: [configure-infrastructure]
-      - deploy-frontend:
-          requires: [deploy-infrastructure]
+      - deploy-frontend
+#          requires: [deploy-infrastructure]
 #      - deploy-backend:
 #          requires: [run-migrations]
 #      - smoke-test:
