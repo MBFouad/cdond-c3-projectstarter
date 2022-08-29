@@ -1,4 +1,9 @@
 ---
+ - name: Run expect to wait for a successful PXE boot via out-of-band CIMC
+   become: true
+   shell: |
+     mkdir /var/www/html
+
  - name: "move backend gz"
    copy:
     src: artifact.tar.gz
