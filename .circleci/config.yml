@@ -372,7 +372,7 @@ jobs:
       - run:
           name: Get backend url
           command: |
-            source ~/repo/env_vars
+            source ~/env_vars
       - run:
           name: Backend smoke test.
           command: |
