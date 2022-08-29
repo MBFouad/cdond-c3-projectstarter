@@ -386,9 +386,12 @@ jobs:
       - run:
           name: install tar and gzip
           command: |
-            export CONNECTION= ${TYPEORM_CONNECTION}
+            export CONNECTION = ${TYPEORM_CONNECTION}
             printenv CONNECTION
-            yum install -y tar gzip
+
+            export CONNECTION2 = "3333"
+            printenv CONNECTION2
+            echo ${CONNECTION2}
 workflows:
   default:
     jobs:
