@@ -255,7 +255,7 @@ jobs:
             export API_URL="http://${BACKEND_IP}:3030"
             echo "API_URL = ${API_URL}"
             echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
-            echo "export BACKEND_IP=\"${BACKEND_IP}\"" >> /home/circleci/env_vars
+            echo "export BACKEND_IP=\"${BACKEND_IP}\"" >> ~/repo/env_vars
             cat frontend/.env
             pwd
       - run:
@@ -266,10 +266,10 @@ jobs:
             npm run build
             tar -czvf artifact-0bcaacb.tar.gz dist
             aws s3 cp dist s3://udapeople-0bcaacb --recursive
-#      - persist_to_workspace:
-#          root: .
-#          paths:
-#            - /home/circleci/env_vars
+      - persist_to_workspace:
+          root: ~/repo
+          paths:
+            - ~/repo/env_vars
       - when:
           condition: on_fail
           steps:
