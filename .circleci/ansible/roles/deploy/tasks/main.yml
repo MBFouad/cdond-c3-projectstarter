@@ -3,17 +3,20 @@
    become: true
    become_method: sudo
    shell: |
-     mkdir /var/www/html
+     mkdir /var/www
+     sudo chown -R ubuntu:ubuntu /var/www
+     sudo chmod 2775 /var/www
 
  - name: "move backend gz"
+   become: true
    copy:
     src: artifact.tar.gz
-    dest: /var/www/html/artifact.tar.gz
+    dest: /var/www/artifact.tar.gz
     backup: yes
 
  - name: extract
    shell: |
-     cd /var/www/html
+     cd /var/www
      tar -xvzf artifact.tar.gz
 
  - name: run project

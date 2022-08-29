@@ -352,6 +352,7 @@ workflows:
       - deploy-infrastructure
 #      - deploy-frontend:
 #          requires: [deploy-infrastructure]
-      - deploy-backend:
+      - configure-infrastructure:
           requires: [deploy-infrastructure]
-      #ansible-playbook -i inventory.txt deploy-backend.yml
+      - deploy-backend:
+          requires: [configure-infrastructure]
