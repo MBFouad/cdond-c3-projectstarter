@@ -232,13 +232,9 @@ jobs:
           name: Get backend url
           command: |
             export BACKEND_IP=$(aws ec2 describe-instances --region us-east-1 --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
-            echo 1
             export API_URL="http://${BACKEND_IP}:3030"
-            echo 2
             echo "API_URL = ${API_URL}"
-            echo 3
             echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
-            echo 4
             cat frontend/.env
       - run:
           name: Deploy frontend objects
@@ -253,9 +249,55 @@ jobs:
           steps:
             - destroy-environment
 
+  deploy-backend:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - checkout
+      - add_ssh_keys:
+          # You can get this ID in the section where you registered the SSH Key
+          fingerprints: ["84:96:f1:09:79:57:7d:18:e5:48:a3:a3:f1:e1:50:15"]
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Install python
+          command: |
+            sudo apt install -y python3
+
+      - run:
+          name: Install tar and gzip
+          command: |
+            sudo apt install -y tar gzip
+
+      - run:
+          name: Install ansible
+          command: |
+            apk add --update ansible
+            apk add openssh-client
+
+      - restore_cache:
+          keys: [backend-build]
+
+      - run:
+          name: Deploy backend
+          command: |
+            cd backend
+            npm install
+            npm run build
+            cd ..
+            # Zip the directory
+            tar -C backend -czvf artifact.tar.gz .
+            cd .circleci/ansible
+            cat inventory.txt
+      - when:
+          condition: on_fail
+          steps:
+            - destroy-environment
+
 workflows:
   default:
     jobs:
+       - deploy-backend
 #      - build-frontend
 #      - build-backend
 #      - test-frontend:
@@ -281,6 +323,8 @@ workflows:
 #      - run-migrations:
 #          requires:
 #            - configure-infrastructure
-      - deploy-infrastructure
-      - deploy-frontend:
-          requires: [deploy-infrastructure]
+#      - deploy-infrastructure
+#      - deploy-frontend:
+#          requires: [deploy-infrastructure]
+
+      #ansible-playbook -i inventory.txt deploy-backend.yml
