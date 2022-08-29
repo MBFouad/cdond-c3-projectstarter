@@ -386,10 +386,10 @@ jobs:
       - run:
           name: install tar and gzip
           command: |
-            export CONNECTION= ${TYPEORM_CONNECTION}
+            export CONNECTION=${TYPEORM_CONNECTION}
             printenv CONNECTION
 
-            export CONNECTION2= "3333"
+            export CONNECTION2=3333
             printenv CONNECTION2
             echo ${CONNECTION2}
 workflows:
