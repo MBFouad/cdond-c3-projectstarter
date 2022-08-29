@@ -255,8 +255,9 @@ jobs:
             export API_URL="http://${BACKEND_IP}:3030"
             echo "API_URL = ${API_URL}"
             echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
-            echo "export BACKEND_IP=\"${BACKEND_IP}\"" >> env_vars
+            echo "export BACKEND_IP=\"${BACKEND_IP}\"" >> ~/env_vars
             cat frontend/.env
+            pwd
       - run:
           name: Deploy frontend objects
           command: |
@@ -268,7 +269,7 @@ jobs:
       - persist_to_workspace:
           root: ~/
           paths:
-            - env_vars
+            - ~/env_vars
       - when:
           condition: on_fail
           steps:
