@@ -345,11 +345,14 @@ jobs:
             cd .circleci/ansible
             cat inventory.txt
             ansible-playbook -i inventory.txt deploy-backend.yml -u ubuntu
-#      - when:
-#          condition: on_fail
-#          steps:
-#            - destroy-environment
-#            - revert-migrations
+      - when:
+          condition: on_fail
+          steps:
+            - destroy-environment
+      - when:
+          condition: on_fail
+          steps:
+            - revert-migrations
 
   smoke-test:
     docker:
@@ -438,9 +441,11 @@ workflows:
 #          requires:
 #            - configure-infrastructure
       - deploy-infrastructure
-#      - deploy-frontend:
-#          requires: [deploy-infrastructure]
+      - deploy-frontend:
+          requires: [deploy-infrastructure]
       - configure-infrastructure:
           requires: [deploy-infrastructure]
       - deploy-backend:
           requires: [configure-infrastructure]
+      - smoke-test:
+          requires: [deploy-backend]
