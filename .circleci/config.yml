@@ -377,17 +377,7 @@ jobs:
       - attach_workspace:
           at: ~/
 
-      - run:
-          name: Backend smoke test.
-          command: |
-            export API_URL="http://34.203.249.3:3030"
-            echo "${API_URL}"
-            if curl "${API_URL}/api/status" | grep "ok"
-            then
-                return 0
-            else
-                return 1
-            fi
+
 
       - run:
           name: Frontend smoke test.
