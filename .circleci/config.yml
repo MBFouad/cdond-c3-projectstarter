@@ -370,6 +370,10 @@ jobs:
             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
             unzip awscliv2.zip
             sudo ./aws/install
+      - run:
+          name: Install ssh
+          command: |
+            apk add openssh-client
       - attach_workspace:
           at: ~/
 
@@ -382,9 +386,9 @@ jobs:
           name: Backend smoke test.
           command: |
             source ~/env_vars
-            export API_URL="http://${BACKEND_IP}:3030"
-            echo "${API_URL}"
-            if curl "${API_URL}/api/status" | grep "ok"
+            export API_URL="http://34.203.249.3:3030"
+            echo "34.203.249.3"
+            if curl "34.203.249.3/api/status" | grep "ok"
             then
                 return 0
             else
@@ -394,7 +398,7 @@ jobs:
       - run:
           name: Frontend smoke test.
           command: |
-            URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-us-east-1.amazonaws.com/#/employees"
+            URL="http://udapeople-087ddbb.s3-website-us-east-1.amazonaws.com/#/employees"
             echo ${URL}
             if curl -s ${URL} | grep "Welcome"
             then
@@ -435,18 +439,18 @@ workflows:
 #      - scan-backend:
 #          requires:
 #            - build-backend
-      - deploy-infrastructure
+#      - deploy-infrastructure
 #          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
 #          filters:
 #            branches:
 #              only: [master]
-      - configure-infrastructure:
-          requires: [deploy-infrastructure]
-      - run-migrations:
-          requires: [configure-infrastructure]
-      - deploy-frontend:
-          requires: [run-migrations]
-      - deploy-backend:
-          requires: [run-migrations]
-      - smoke-test:
-          requires: [deploy-backend, deploy-frontend]
+#      - configure-infrastructure:
+#          requires: [deploy-infrastructure]
+#      - run-migrations:
+#          requires: [configure-infrastructure]
+#      - deploy-frontend:
+#          requires: [run-migrations]
+#      - deploy-backend:
+#          requires: [run-migrations]
+      - smoke-test
+#          requires: [deploy-backend, deploy-frontend]
