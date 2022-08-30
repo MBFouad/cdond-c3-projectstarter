@@ -23,5 +23,4 @@
    shell: |
      npm install
      pm2 stop default
-     NODE_PORT=3030 pm2 start npm -- start
-     PORT=3002 pm2 start npm -- start
+     pm2 start npm -- start
