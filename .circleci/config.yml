@@ -26,6 +26,7 @@ commands:
           command: |
             SUCCESS=$(curl -k https://kvdb.io/FPMMsgcQudYCs8jjBtoJ1q/migration_b361381)
             if(( $SUCCESS == 1 ))
+            then
               cd ~/project/backend
               npm install
               npm run migrations:revert
@@ -407,11 +408,11 @@ jobs:
             else
               exit 1
             fi
-      - when:
-          condition: on_fail
-          steps:
-            - destroy-environment
-            - revert-migrations
+#      - when:
+#          condition: on_fail
+#          steps:
+#            - destroy-environment
+#            - revert-migrations
 
 
   cloudfront-update:
