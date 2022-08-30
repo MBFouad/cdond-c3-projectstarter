@@ -373,7 +373,7 @@ jobs:
       - run:
           name: Install ssh
           command: |
-            apk add openssh-client
+            sudo apt install -y curl
       - attach_workspace:
           at: ~/
 
