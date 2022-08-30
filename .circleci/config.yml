@@ -209,8 +209,10 @@ jobs:
           command: |
             cd backend
             npm install
+            npm i npm-force-resolutions && npm-force-resolutions
             npm run migrations:revert
             npm run migrations > migrations_dump.txt
+            echo 11
             cat migrations_dump.txt
 
       - run:
