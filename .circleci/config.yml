@@ -366,7 +366,7 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      - run: sleep 60
+      - run: sleep 1
       - run:
           name: Install awscli
           command: |
@@ -380,15 +380,14 @@ jobs:
       - attach_workspace:
           at: ~/
 
-      - run:
-          name: Get backend url
-          command: |
-            cat ~/env_vars
-            source ~/env_vars
+#      - run:
+#          name: Get backend url
+#          command: |
+#            cat ~/env_vars
+#            source ~/env_vars
       - run:
           name: Backend smoke test.
           command: |
-            source ~/env_vars
             export API_URL="http://44.210.141.210:3030"
             echo "${API_URL}"
             if curl "${API_URL}/api/status" | grep "ok"
