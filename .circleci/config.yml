@@ -255,9 +255,13 @@ jobs:
             export API_URL="http://${BACKEND_IP}:3030"
             echo "API_URL = ${API_URL}"
             echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
+            echo 1
+            echo "export BACKEND_IP=\"${BACKEND_IP}\""
+            echo 2
             echo "export BACKEND_IP=\"${BACKEND_IP}\"" >> ~/repo/env_vars
             cat frontend/.env
-            pwd
+            echo 3
+            cat ~/repo/env_vars
       - run:
           name: Deploy frontend objects
           command: |
@@ -372,10 +376,12 @@ jobs:
       - run:
           name: Get backend url
           command: |
+            cat ~/env_vars
             source ~/env_vars
       - run:
           name: Backend smoke test.
           command: |
+            source ~/env_vars
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
             if curl "${API_URL}/api/status" | grep "ok"
