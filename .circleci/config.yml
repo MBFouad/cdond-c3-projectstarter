@@ -378,14 +378,8 @@ jobs:
           at: ~/
 
       - run:
-          name: Get backend url
-          command: |
-            cat ~/env_vars
-            source ~/env_vars
-      - run:
           name: Backend smoke test.
           command: |
-            source ~/env_vars
             export API_URL="http://34.203.249.3:3030"
             echo "34.203.249.3"
             if curl "34.203.249.3/api/status" | grep "ok"
