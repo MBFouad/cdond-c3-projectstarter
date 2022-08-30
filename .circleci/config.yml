@@ -384,6 +384,7 @@ jobs:
           command: |
             URL="http://udapeople-087ddbb.s3-website-us-east-1.amazonaws.com/#/employees"
             echo ${URL}
+            #!/bin/bash
             if curl -s ${URL} | grep "Welcome"
             then
               return 0
