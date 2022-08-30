@@ -381,8 +381,8 @@ jobs:
           name: Backend smoke test.
           command: |
             export API_URL="http://34.203.249.3:3030"
-            echo "34.203.249.3"
-            if curl "34.203.249.3/api/status" | grep "ok"
+            echo "${API_URL}"
+            if curl "${API_URL}/api/status" | grep "ok"
             then
                 return 0
             else
